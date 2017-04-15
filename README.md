@@ -121,7 +121,7 @@ Les points jaunes et rouges sont les mêmes que précédemment. Les zones en ble
 J'ai pu découvrir au fil de mes recherches différentes méthodes de suivi d'objet dans une image, leurs avantages, leurs inconvénients, et leurs pistes d'amélioration.
 Ainsi, j'ai pu notamment réaliser à quel point la tâche pouvait être difficile quand de bonnes conditions ne sont pas réunies : images compressées, balles rendues ovales, floues, par la vitesse, parfois cachées par les joueurs pouvant avoir la même couleur, etc.
 
-Les deux pistes d'améliorations à laquelle j'ai songé sont :
+Les deux pistes d'améliorations auxquelles j'ai songé sont :
 
 * Utiliser un device adapté. On peut utiliser des caméras à profondeur de champ, avec une meilleure définition d'image, ou encore des émetteurs et récepteurs infrarouge (méthode sans traitement d'image)
 * Améliorer l'algorithme précédent par le machine learning. On sait qu'en matière de reconnaissance d'objet, et donc de suivi, ils sont ceux qui donnent les meilleurs résultats. A l'image de ma dernière version, où je calcule un score en me basant sur une combinaison linéaire de paramètres préalablement sélectionnés, et dont les coefficients sont fixés à l'avance, ces derniers arrivent à deviner par eux-mêmes quels sont les paramètres et coefficients cohérents pour reconnaître un objet.
