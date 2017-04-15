@@ -1,6 +1,6 @@
 # Rapport de projet
 
-### Introduction
+## Introduction
 
 Ce projet est réalisé dans le cadre du MODAL INF473I.
 Mes remerciements à M. KERIVEN pour la conduite du cours et le suivi de projet.
@@ -9,7 +9,7 @@ Les vidéos utilisées dans les tests sont des extraits aux droits réservés, q
 
 **Objectif :** Expérimenter des méthodes de tracking en essayant de suivre une balle dans un extrait de match sportif brut, c'est à dire sans utiliser une caméra slow motion, 3D, HD, etc.
 
-### Usage
+## Usage
 Pour générer un build pour le projet, utilisez le générateur de build [CMake](https://cmake.org/) avec votre suite de compilation préférée.
 Vous pouvez ensuite lancer le projet en donnant en paramètre le nom de l'input à charger. Cela correspond au fichier texte ayant le même nom, dans le dossier `./inputs/`. Les inputs existants sont pour l'instant `foot1`, `foot2`, et `tennis`.
 
@@ -21,9 +21,9 @@ Une fois le programme lancé, vous pouvez utiliser les commandes suivantes :
  * `-` ou `+` pour changer la vitesse
  * `clic gauche` pour indiquer au programme la position de la balle, à tout moment.
 
-### Démarche scientifique
+## Démarche scientifique
 
-#### Organisation du code
+### Organisation du code
 Au travers de mes recherches, je me suis rapidement rendu compte des difficultés que je rencontrais, et de la nécessité d'utiliser plusieurs méthodes. C'est la raison pour laquelle j'ai créé une base commune au programme, avec de multiples implémentations pour chacune des méthodes.
 
 * La gestion des inputs du programme a lieu dans le fichier `main.cpp`
@@ -35,7 +35,7 @@ Au travers de mes recherches, je me suis rapidement rendu compte des difficulté
 
 L'input donné au `main` est un fichier texte qui contient diverses informations. Sur la première ligne figure le nom du fichier vidéo à charger. La seconde ligne contient l'identifiant de la méthode à utiliser. Les lignes suivantes contiennent diverses informations spécifiques à chaque implémentation.
 
-#### La suppression de fond
+### La suppression de fond
 
 Une méthode classique pour repérer les éléments se déplaçant dans une image est la suppression du fond. Il existe diverse techniques, dont la plupart utilise les premières images d'une vidéo pour en déduire un fond, qu'elles vont ensuite pouvoir supprimer en temps réel.
 
@@ -43,7 +43,7 @@ Le problème de cette méthode est qu'elle ne fonctionne qu'avec des images prov
 
 Je n'ai donc pas pu utiliser cette méthode pour isoler la balle.
 
-#### La méthode LKT
+### La méthode LKT
 La méthode LKT est la seconde technique que j'ai tenté d'utiliser. Il s'agit de la méthode Lucas-Kanade Tracking.
 
 Cette méthode calcule le flux optique d'un pixel. Pour cela, on suppose que le flux est faible et constant sur un voisinage du pixel, ce qui permet grandement de simplifier les calculs.
@@ -61,7 +61,7 @@ Très souvent, le pixel prédit bouge au sein de la balle, jusqu'à parfois en s
 
 *Bilan :* Cette technique peut être utilisée pour suivre le mouvement relatif du terrain à la caméra, mais pas celui du ballon.
 
-#### Le filtre de Kalman
+### Le filtre de Kalman
 
 Afin de pallier aux défauts de la méthode précédente, il m'a fallu penser à une méthode différente. La première chose que l'on peut faire, c'est essayer d'anticiper sur le mouvement de la balle. En effet, dans la méthode précédente, on ne tient compte que de l'évolution d'une image à l'autre, mais pas de la dynamique que peut suivre un objet. Une méthode par prédiction nous permettrait d'anticiper la position où l'on peut espérer trouver la balle.
 
@@ -71,7 +71,7 @@ Il est composé de deux étapes distinctes :
 * La prédiction, durant laquelle, à partir de l'état actuel et de la matrice de transition (celle décrivant la dynamique, donc), l'algorithme donne une prédiction de la position de la balle.
 * La correction : à partir de la position mesurée, il corrige sa prédiction, et donne ainsi une position réelle probable de l'objet.
 
-#### Méthode par région d'intérêt
+### Méthode par région d'intérêt
 
 En revanche, pour pouvoir appliquer cet algorithme, il est nécessaire d'avoir une méthode pour mesurer la position de la balle à chaque frame.
 
@@ -92,7 +92,7 @@ De plus, travailler avec des contours et des formes permet d'identifier le momen
 
 **Inconvénients :** La gestion locale rend difficile le suivi lorsque l'on arrive à proximité d'un joueur, on ne sait plus quelle forme suivre.
 
-#### Analyse des formes
+### Analyse des formes
 
 La dernière version à laquelle je suis arrivé est inspirée de la précédente, mais cette fois ci, au lieu d'isoler une zone d'intérêt, nous allons étudier la scène de manière globale. On utilise la même technique, à savoir sélectionner un channel et effectuer un threshold, puis une détection des contours à fin d'obtenir une liste des formes fermées isolées du terrain. L'idée est ensuite de récupérer la forme qui représente le plus le ballon en leur attribuant un score.
 
@@ -116,7 +116,7 @@ Les points jaunes et rouges sont les mêmes que précédemment. Les zones en ble
 
 **Inconvénients :** Il existe des parties de joueurs qui se trouvent, dans certains cas, être en tout point semblables à la balle, et qui trompent donc l'algorithme.
 
-### Conclusion
+## Conclusion
 
 J'ai pu découvrir au fil de mes recherches différentes méthodes de suivi d'objet dans une image, leurs avantages, leurs inconvénients, et leurs pistes d'amélioration.
 Ainsi, j'ai pu notamment réaliser à quel point la tâche pouvait être difficile quand de bonnes conditions ne sont pas réunies : images compressées, balles rendues ovales, floues, par la vitesse, parfois cachées par les joueurs pouvant avoir la même couleur, etc.
